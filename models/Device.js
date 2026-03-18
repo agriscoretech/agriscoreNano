@@ -6,6 +6,11 @@ const deviceSchema = new mongoose.Schema({
         unique:true,
 
     },
+    farmerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
 
     location:{
         type:String,

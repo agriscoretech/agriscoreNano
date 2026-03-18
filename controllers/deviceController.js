@@ -3,7 +3,7 @@ import Device from "../models/Device.js";
 export const getDevices = async (req, res) => {
   try {
 
-    const devices = await Device.find();
+    const devices = await Device.find({ farmerId: req.user.id });
 
     res.json(devices);
 
@@ -20,7 +20,8 @@ export const createDevice = async (req, res) => {
 
     const device = new Device({
       deviceId,
-      location
+      location,
+      farmerId: req.user.id
     });
 
     const savedDevice = await device.save();
