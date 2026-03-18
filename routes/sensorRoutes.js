@@ -19,6 +19,6 @@ router.get("/", verifyToken, verifyAdmin, async (req, res) => {
 });
 
 // Get data for specific device (admin only)
-router.get("/:deviceId", verifyToken, verifyAdmin, getDeviceData);
+router.get("/:deviceId", verifyToken, getDeviceData);
 
 export default router;

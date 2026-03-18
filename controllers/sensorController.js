@@ -3,8 +3,17 @@ import Device from "../models/Device.js";
 
 export const getDeviceData = async(req,res)=>{
     const {deviceId} = req.params;
+    const device = await Device.findOne({ deviceId, farmerId: req.user.id });
+
+    if (!device) {
+      return res.status(403).json({ message: "Not authorized for this device" });
+    }
+
     try{
-        const data = await SensorData.find({deviceId})
+        const data = await SensorData.find({
+          deviceId,
+          farmerId: req.user.id
+        })
         .sort({timestamp:-1});
         res.json(data);
     }catch (error){
