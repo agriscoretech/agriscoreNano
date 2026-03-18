@@ -3,7 +3,13 @@ import Device from "../models/Device.js";
 export const getDevices = async (req, res) => {
   try {
 
-    const devices = await Device.find({ farmerId: req.user.id });
+    let devices;
+
+    if (req.user.role === "admin") {
+      devices = await Device.find();
+    } else {
+      devices = await Device.find({ farmerId: req.user.id });
+    }
 
     res.json(devices);
 

@@ -45,18 +45,16 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // 🔥 Restrict access
-    if (email !== ADMIN_EMAIL) {
-      return res.status(403).json({ message: "Access denied. Not admin." });
-    }
+    // Determine role
+    const role = email === ADMIN_EMAIL ? "admin" : "farmer";
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: "admin" },
+      { id: user._id, email: user.email, role },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
-    res.json({ token });
+    res.json({ token, role });
 
   } catch (err) {
     res.status(500).json({ message: err.message });

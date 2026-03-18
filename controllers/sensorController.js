@@ -24,11 +24,11 @@ export const createSensorData = async (req, res) => {
       return res.status(404).json({ message: "Device not registered" });
     }
 
-    // Attach farmerId and location automatically
+    // Attach farmerId, but allow dynamic location from request
     const sensor = new SensorData({
       ...req.body,
       farmerId: device.farmerId,
-      location: device.location
+      location: req.body.location || device.location
     });
 
     // Update device status + last seen
