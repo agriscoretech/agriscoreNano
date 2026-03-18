@@ -1,7 +1,7 @@
 import express from "express";
-import { getDevices, createDevice } from "../controllers/deviceController.js";
-import { verifyToken, verifyAdmin } from "../middleware/authMiddleware.js";
 
+import { verifyToken, verifyAdmin } from "../middleware/authMiddleware.js";
+import { getDevices, createDevice, updateLocation } from "../controllers/deviceController.js";
 const router = express.Router();
 // Admin routes
 router.get("/", verifyToken, verifyAdmin, getDevices);
