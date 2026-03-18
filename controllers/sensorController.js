@@ -1,26 +1,34 @@
 import SensorData from "../models/SensorData.js";
 import Device from "../models/Device.js";
 
-export const getDeviceData = async(req,res)=>{
-    const {deviceId} = req.params;
-    const device = await Device.findOne({ deviceId, farmerId: req.user.id });
+export const getDeviceData = async (req, res) => {
+  const { deviceId } = req.params;
 
-    if (!device) {
-      return res.status(403).json({ message: "Not authorized for this device" });
+  try {
+    let query = { deviceId };
+
+    // If NOT admin → restrict access
+    if (req.user.role !== "admin") {
+      const device = await Device.findOne({
+        deviceId,
+        farmerId: req.user.id
+      });
+
+      if (!device) {
+        return res.status(403).json({ message: "Not authorized for this device" });
+      }
+
+      query.farmerId = req.user.id;
     }
 
-    try{
-        const data = await SensorData.find({
-          deviceId,
-          farmerId: req.user.id
-        })
-        .sort({timestamp:-1});
-        res.json(data);
-    }catch (error){
-        res.status(500).json({message:error.message});
-    }
-}
+    const data = await SensorData.find(query).sort({ timestamp: -1 });
 
+    res.json(data);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export const createSensorData = async (req, res) => {
   try {
     console.log("BODY RECEIVED:", req.body);
