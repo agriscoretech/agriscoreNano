@@ -45,7 +45,7 @@ export const createSensorData = async (req, res) => {
     const sensor = new SensorData({
       ...req.body,
       farmerId: device.farmerId,
-      location: req.body.location || device.location
+      location: device.currentLocation || device.location
     });
 
     // Update device status + last seen

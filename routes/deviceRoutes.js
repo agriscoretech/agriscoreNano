@@ -10,6 +10,6 @@ router.post("/", verifyToken, verifyAdmin, createDevice);
 // Farmer routes (no admin check)
 router.get("/farmer", verifyToken, getDevices);
 router.post("/farmer", verifyToken, createDevice);
-
+router.put("/update-location", verifyToken, updateLocation);
 
 export default router;

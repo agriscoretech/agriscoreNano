@@ -17,6 +17,10 @@ const deviceSchema = new mongoose.Schema({
         required:true,
 
     },
+    currentLocation: {
+  type: String,
+  default: ""
+},
 
     status:{
         type:String,

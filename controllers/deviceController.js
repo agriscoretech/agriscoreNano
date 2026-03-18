@@ -17,6 +17,21 @@ export const getDevices = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const updateLocation = async (req, res) => {
+  try {
+    const { location } = req.body;
+
+    await Device.updateMany(
+      { farmerId: req.user.id },
+      { currentLocation: location }
+    );
+
+    res.json({ message: "Location updated" });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 export const createDevice = async (req, res) => {
 
